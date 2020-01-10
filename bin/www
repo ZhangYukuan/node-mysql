@@ -1,0 +1,167 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('tony:server');
+var http = require('http');
+var io=require("socket.io");
+var mysql = require('mysql');
+/**
+ * Get port from environment and store in Express.
+ */
+var allUser={};
+var connectdb = mysql.createConnection({
+  host     : 'localhost',
+  port     : '3306',
+  user     : 'root',
+  password : 'root',
+  database : 'chat-db'
+});
+connectdb.connect();
+
+connectdb.query('SELECT * FROM user_info', function (error, results, fields) {
+  if (error) throw error;
+  results.forEach(item=>{allUser[item.name]=item.password;})
+  console.log(allUser);
+});
+
+
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+// var allUser={"Tony":"123456","Lucy":"456789"};
+var onLine=[];
+var server = http.createServer(app);
+io=io(server);
+
+io.on("connection",function(socket){
+  // console.log(socket.on);
+  socket.on("userName",function(name,password){
+    var reType=1;
+    for(x in allUser){
+      if (x==name) {
+        reType=0;
+        break;
+      }
+    };
+    if (reType) {
+      allUser[name]=password;
+      connectdb.query('INSERT INTO user_info(name,password) values ('+name+','+password+')',function(err,results){
+        if (err) {console.log('sql执行错误'); return}
+        console.log('新用户:'+name+',注册成功')
+      })
+    }
+    socket.emit("reType",reType);
+  });
+  socket.on("loginName",function(name,password){
+    var loType=0;
+    for(x in allUser){
+      if (x==name) {
+        // console.log(allUser[x]);
+        if (allUser[x]==password) {
+          loType=11;
+          socket.name=name;
+          onLine.push(socket.name)
+        }else{
+          loType=10;
+        }
+        break;
+      }
+    };
+    socket.emit("loType",loType);
+    io.emit("onLine",onLine);
+  });
+  socket.on("sendMessage",function(arr){
+    connectdb.query('INSERT INTO msg_info(content,user,time) values ("'+ arr[1] +'","'+ arr[0] +'","'+new Date()+'")',function(err,results){
+        if (err) {
+          console.log('sql执行错误');
+          // io.emit("error",arr.splice(1,1,'信息:'+arr[1]+'--发送失败'));
+          return
+        }
+        console.log('信息保存成功',arr)
+        io.emit("message",arr);
+  })
+  })
+  socket.on('disconnect',function(){
+    for (var i = 0; i < onLine.length; i++) {
+      if(onLine[i]==socket.name){
+        onLine.splice(i,1);
+        io.emit("onLine",onLine);
+      }
+    }
+  })
+})
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

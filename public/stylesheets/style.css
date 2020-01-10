@@ -1,0 +1,120 @@
+    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i,dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, section, summary, time, mark, audio, video{margin:0;padding:0;} 
+    a,input,textarea{ border:none; -webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color:transparent;outline:none;text-decoration:none;display:block;}
+    input,textarea {border: 0;-webkit-appearance: none;outline : none;}
+    body{-webkit-overflow-scrolling: touch; overflow-scrolling: touch;overflow-x:hidden;font-family:"SimHei","黑体","Microsoft YaHei"}
+    i{font-style:normal;display:inline-block;}
+    ol,ul{list-style: none;}   
+    .clearfix:after{content:".";display:block;visibility:hidden;height:0;clear:both;}
+    @-webkit-keyframqs ani{from{transform: scale(0.1, 0.1)}to{transform: scale(1, 1)}}
+    .message{display:none;position: fixed;z-index: 99999; background: rgba(181,7,246, 0.7);top: 45%;left: 50%;text-align: center;color: #fff;font-size: 1.2rem;padding: 0.5rem}
+	html,body,.content{width: 100%;height: 100%;}
+	.login{
+		width: 100%;height: 95%;
+		position: fixed;top: 5%;left: 0;
+		background: #fff;
+		z-index: 100;
+	}
+	.top{
+		width: 100%;height: 5%;
+		position: absolute;top: 0;left: 0;
+		background:rgb(181,7,246);
+		text-align: center;
+		color: #fff;
+		font-size: 1.2rem;line-height: 2rem;
+	}
+	.onLine{
+		width: 30%;height: 85%;
+		position: absolute;
+		bottom: 0;right: 2%;
+		text-align: right;
+		color: rgba(256,256,256,0.6);
+		font-size: 0.8rem;
+		display: none;
+	}
+	.user,.psw,.btn-login,.btn-regist{
+		width: 80%;height: 8%;
+		position: absolute;
+		top: 40%;left: 10%;
+		background: rgba(0, 0, 0, 0.2);
+		font-size: 1.2rem;
+		color: rgb(256,256,256);
+		text-indent: 0.5rem;
+	}
+	.psw{
+		top: 50%;
+	}
+	.btn-login{
+		text-indent: 0;
+		top: 62%;
+		background: rgba(181,7,246, 0.7);
+	}
+	.router{
+		width: 50%;
+		color: #999;
+		position: absolute;
+		top: 72%;left: 25%;
+		text-align: center;
+	}
+	.btn-regist{
+		display: none;
+		text-indent: 0;
+		top: 62%;
+		background: rgba(181,7,246, 0.5);
+	}
+	.send{
+		width: 100%;height: 6%;
+		position: absolute;
+		bottom: 0;left: 0;
+		background:rgb(181,7,246);
+	}
+	.sendCont{
+		width: 80%;height: 70%;
+		position: absolute;
+		left: 3%;bottom: 15%;
+		border:0;
+		margin: 0;padding: 0;
+		color: #333;
+		font-size: 1.2rem;
+		text-indent: 0.3rem;
+	}
+	.btn-send{
+		width: 12%;height: 70%;
+		position: absolute;
+		right: 3%;bottom: 15%;
+		border: 0;
+		background: #fff;
+		margin: 0;padding: 0;
+	}
+	.msg_list{
+		width: 90%;height: 89%;
+		position: absolute;
+		top: 5%;left: 5%;
+	}
+	.msg_list li{
+		width: 80%;
+		list-style: none;
+		position: relative;
+		float: left; 	
+	}
+	.msg_list .list{
+		text-align: right;	
+		float: right;
+	}
+	.msg_list p{
+		font-size: 1rem;
+		line-height: 2rem;
+	}
+	.msg_list .msg{
+		display: inline-block;
+		padding: 0.5rem;
+		font-size: 1.2rem;
+		line-height: 2.2rem;
+		border-radius: 1rem;
+		background: rgba(181,7,246, 0.3);
+		text-align: left;
+		word-break:break-all;
+	}
+	.msg_list .userName{
+		text-align: right;
+	}
+
