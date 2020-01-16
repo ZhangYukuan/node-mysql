@@ -53,7 +53,7 @@ io.on("connection",function(socket){
     };
     if (reType) {
       allUser[name]=password;
-      connectdb.query('INSERT INTO user_info(name,password) values ('+name+','+password+')',function(err,results){
+      connectdb.query('INSERT INTO user_info(name,password) values ("'+name+'","'+password+'")',function(err,results){
         if (err) {console.log('sql执行错误'); return}
         console.log('新用户:'+name+',注册成功')
       })
